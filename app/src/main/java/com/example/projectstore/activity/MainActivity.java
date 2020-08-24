@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public EditText emailId, passwordId;
     public Button signInButton;
-    public TextView registerHere;
+    public TextView registerHere, forgotPassword;
 
     FirebaseAuth mFirebaseAuth;
 
@@ -34,7 +34,34 @@ public class MainActivity extends AppCompatActivity {
         passwordId = (EditText)findViewById(R.id.password);
         signInButton = (Button)findViewById(R.id.signInBtn);
         registerHere = (TextView)findViewById(R.id.registerHere);
+        forgotPassword = (TextView)findViewById(R.id.forgotPassword);
 
+        forgotPasswordClickMethod();
+        registerHereClickMethod();
+        signInButtonClickMethod();
+    }
+
+    private void forgotPasswordClickMethod() {
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class));
+           }
+        });
+    }
+
+    private void registerHereClickMethod() {
+        registerHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, SelectUserTypeActivity.class);
+                System.out.println("Marvin");
+                startActivity(i);
+            }
+        });
+    }
+
+    private void signInButtonClickMethod() {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,25 +83,13 @@ public class MainActivity extends AppCompatActivity {
                             else {
                                 Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
 //                                Intent i = new Intent(MainActivity.this, HomePageActivity.class);
- //                               startActivity(i);
+                                //                               startActivity(i);
                             }
                         }
                     });
                 } else {
                     Toast.makeText(MainActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        registerHere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(MainActivity.this, SelectUserTypeActivity.class);
-                System.out.println("Marvin");
-                startActivity(i);
-
-
             }
         });
     }
@@ -84,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         if (mFirebaseAuth.getCurrentUser() != null) {
             Toast.makeText(MainActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-            //Intent i = new Intent(MainActivity.this, HomePageActivity.class);
-            //startActivity(i);
+            // Intent i = new Intent(MainActivity.this, HomePageActivity.class);
+            // startActivity(i);
             bool = true;
         } else {
             Toast.makeText(MainActivity.this, "You are logged out. Please log in again.", Toast.LENGTH_SHORT).show();
