@@ -68,9 +68,14 @@ public class MainActivity extends AppCompatActivity {
         registerHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 Intent i = new Intent(MainActivity.this, RegisterActivity.class);
                 System.out.println("Marvin");
                 startActivity(i);   
+=======
+                Intent i = new Intent(MainActivity.this, SelectUserTypeActivity.class);
+                startActivity(i);
+>>>>>>> master
             }
         });
     }

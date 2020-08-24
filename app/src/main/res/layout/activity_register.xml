@@ -5,98 +5,117 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ffac00"
     tools:context=".RegisterActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="70dp"
-        android:text="Create an account"
-        android:textSize="30dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/edit_top_left_curve"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/fullname"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="Fullname"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:text="Create an Account"
+            android:textSize="30dp"/>
 
-    <EditText
-        android:id="@+id/location"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="Location"/>
+        <EditText
+            android:id="@+id/fullname"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_textview_box"
+            android:hint="Fullname"/>
 
-    <EditText
-        android:id="@+id/contactnumber"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="Contact number"
-        android:inputType="phone"
-        android:maxLength="12"/>
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_textview_box"
+            android:hint="Location"/>
 
-    <EditText
-        android:id="@+id/storename"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="Store name"/>
+        <EditText
+            android:id="@+id/contactnumber"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:hint="Contact number"
+            android:inputType="phone"
+            android:background="@drawable/edit_textview_box"
+            android:maxLength="12"/>
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="EmailAddress"/>
+        <EditText
+            android:id="@+id/storename"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_textview_box"
+            android:hint="Store name" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="Password"/>
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_textview_box"
+            android:hint="Email address"/>
 
-    <EditText
-        android:id="@+id/re_password"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="Re-enter Password"/>
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_textview_box"
+            android:hint="Password"/>
 
-    <TextView
-        android:id="@+id/alertTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Password not match"
-        android:textStyle="bold"
-        android:textColor="#FF0000"
-        android:visibility="invisible"/>
+        <EditText
+            android:id="@+id/re_password"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_textview_box"
+            android:hint="Re-enter password"/>
 
-    <Button
-        android:id="@+id/signUpBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="20dp"
-        android:text="Submit" />
+        <TextView
+            android:id="@+id/alertTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Password not match"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
+            android:visibility="invisible"/>
 
-    <TextView
-        android:id="@+id/loginHere"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="Already have an account? Sign in here."/>
+        <Button
+            android:id="@+id/signUpBtn"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/edit_round"
+            android:textColor="#ffffff"
+            android:layout_width="300dp"
+            android:textAllCaps="false"
+            android:text="Submit" />
+
+        <TextView
+            android:id="@+id/loginHere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Already have an account? Sign in here."/>
+
+    </LinearLayout>
 
 </LinearLayout>

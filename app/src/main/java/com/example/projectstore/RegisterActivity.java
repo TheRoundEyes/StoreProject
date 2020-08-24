@@ -104,7 +104,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
+        String s1 = Boolean.toString(user.isCustomer());
+        Toast.makeText(RegisterActivity.this, "s1", Toast.LENGTH_SHORT).show();
     }
 
     private void writeNewUser(String fullname, String location, String contactnumber, String store, String email, String password) {
@@ -117,5 +118,21 @@ public class RegisterActivity extends AppCompatActivity {
         user.setEmailaddress(email);
         user.setPassword(password);
         dbRef.push().child("users").setValue(user);
+    }
+
+    /*private void identifyUser(boolean isCustomer) {
+        boolean u = true;
+        if (u == isCustomer) {
+            //storename.setVisibility(View.GONE);
+            Toast.makeText(RegisterActivity.this, "User: Customer", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(RegisterActivity.this, "User: Store owner", Toast.LENGTH_LONG).show();
+        }
+    }*/
+
+    @Override
+    public void onStart(){
+        super.onStart();
     }
 }
