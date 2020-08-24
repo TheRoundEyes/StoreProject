@@ -1,4 +1,4 @@
-package com.example.projectstore;
+package com.example.projectstore.obj;
 
 public class User {
 

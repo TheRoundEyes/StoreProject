@@ -1,9 +1,8 @@
-package com.example.projectstore;
+package com.example.projectstore.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectstore.R;
+import com.example.projectstore.obj.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -104,8 +105,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        String s1 = Boolean.toString(user.isCustomer());
-        Toast.makeText(RegisterActivity.this, "s1", Toast.LENGTH_SHORT).show();
+//        String s1 = user.getIsCustomer();
+//        Toast.makeText(RegisterActivity.this, s1, Toast.LENGTH_SHORT).show();
     }
 
     private void writeNewUser(String fullname, String location, String contactnumber, String store, String email, String password) {
@@ -117,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.setStorename(store);
         user.setEmailaddress(email);
         user.setPassword(password);
+        user.setCustomer(SelectUserTypeActivity.isCustomer);
         dbRef.push().child("users").setValue(user);
     }
 

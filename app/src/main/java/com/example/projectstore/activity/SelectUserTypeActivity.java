@@ -1,4 +1,4 @@
-package com.example.projectstore;
+package com.example.projectstore.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.projectstore.R;
+import com.example.projectstore.obj.User;
+
 public class SelectUserTypeActivity extends AppCompatActivity {
 
     Button customer, store_owner;
     User user;
-    boolean isCustomer;
+    static boolean isCustomer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

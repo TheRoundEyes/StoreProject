@@ -1,4 +1,4 @@
-package com.example.projectstore;
+package com.example.projectstore.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -68,14 +69,12 @@ public class MainActivity extends AppCompatActivity {
         registerHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
-                Intent i = new Intent(MainActivity.this, RegisterActivity.class);
-                System.out.println("Marvin");
-                startActivity(i);   
-=======
+
                 Intent i = new Intent(MainActivity.this, SelectUserTypeActivity.class);
+                System.out.println("Marvin");
                 startActivity(i);
->>>>>>> master
+
+
             }
         });
     }
