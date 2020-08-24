@@ -31,7 +31,7 @@ public class SelectUserTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isCustomer = true;
-                user.setCustomer(isCustomer);
+//                user.setCustomer(isCustomer);
                 Toast.makeText(SelectUserTypeActivity.this, "User: Customerrrrrrrrrr", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(SelectUserTypeActivity.this, RegisterActivity.class);
                 startActivity(i);
@@ -43,7 +43,7 @@ public class SelectUserTypeActivity extends AppCompatActivity {
             public void onClick(View v){
                 isCustomer = false;
                 Toast.makeText(SelectUserTypeActivity.this, "User: Store ownerrrrrrrrrrr", Toast.LENGTH_LONG).show();
-                user.setCustomer(isCustomer);
+//                user.setCustomer(isCustomer);
                 Intent i = new Intent(SelectUserTypeActivity.this, RegisterActivity.class);
                 startActivity(i);
             }
