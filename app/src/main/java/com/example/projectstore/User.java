@@ -4,6 +4,7 @@ public class User {
 
     private String fullname, location, storename, emailaddress, password;
     private Long contactnumber;
+    private boolean customer = false;
 
     public User() {}
 
@@ -63,4 +64,8 @@ public class User {
     public void setContactnumber(Long contactnumber) {
         this.contactnumber = contactnumber;
     }
+
+    public boolean isCustomer(){ return this.customer; }
+
+    public void setCustomer(boolean customer) { this.customer = customer; }
 }
