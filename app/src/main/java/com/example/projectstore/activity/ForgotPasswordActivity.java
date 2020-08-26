@@ -6,9 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.projectstore.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
@@ -21,7 +19,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         cancel = (Button)findViewById(R.id.cancelButton);
         send = (Button)findViewById(R.id.sendButton);
-        phoneNumber = (EditText)findViewById(R.id.phoneNumberField);
+        phoneNumber = (EditText)findViewById(R.id.passwordField);
         cancelButtonClick();
         sendButtonClick();
     }
@@ -50,12 +48,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     phoneNumber.setError("Phone number should be 11 digits");
                 }
                 else {
-                    sendVerificationCodeToUser(pn);
+                    Intent i = new Intent(ForgotPasswordActivity.this, ForgotPasswordCodeSent.class);
+                    i.putExtra("phoneNumber", pn);
+                    startActivity(i);
                 }
             }
         });
     }
 
-    private void sendVerificationCodeToUser(String phoneNumber) {
-    }
+
 }
