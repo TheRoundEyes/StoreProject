@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,114 +8,179 @@
     android:background="#ffac00"
     tools:context=".activity.RegisterActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+    <View
+        android:id="@+id/view2"
+        android:layout_width="414dp"
+        android:layout_height="672dp"
         android:background="@drawable/edit_top_left_curve"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:text="Create an Account"
-            android:textSize="30dp"/>
+    </View>
 
-        <EditText
-            android:id="@+id/fullname"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_textview_box"
-            android:hint="Fullname"/>
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:text="Create an Account"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
-        <EditText
-            android:id="@+id/location"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_textview_box"
-            android:hint="Location"/>
+    <TextView
+        android:id="@+id/alertTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rpassword" />
 
-        <EditText
-            android:id="@+id/contactnumber"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:hint="Contact number"
-            android:inputType="phone"
-            android:background="@drawable/edit_textview_box"
-            android:maxLength="12"/>
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Email address"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/storename" />
 
-        <EditText
-            android:id="@+id/storename"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_textview_box"
-            android:hint="Store name" />
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Username"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_textview_box"
-            android:hint="Email address"/>
+    <EditText
+        android:id="@+id/rpassword"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Re-enter password"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_textview_box"
-            android:hint="Password"/>
+    <EditText
+        android:id="@+id/location"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Location"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fullname" />
 
-        <EditText
-            android:id="@+id/re_password"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_textview_box"
-            android:hint="Re-enter password"/>
+    <TextView
+        android:id="@+id/loginHere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Already have an account? Sign in here."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpBtn" />
 
-        <TextView
-            android:id="@+id/alertTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Password not match"
-            android:textStyle="bold"
-            android:textColor="#FF0000"
-            android:visibility="invisible"/>
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Password"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
-        <Button
-            android:id="@+id/signUpBtn"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/edit_round"
-            android:textColor="#ffffff"
-            android:layout_width="300dp"
-            android:textAllCaps="false"
-            android:text="Submit" />
+    <EditText
+        android:id="@+id/storename"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Store name"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactnumber" />
 
-        <TextView
-            android:id="@+id/loginHere"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Already have an account? Sign in here."/>
+    <EditText
+        android:id="@+id/fullname"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Fullname"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    </LinearLayout>
+    <EditText
+        android:id="@+id/contactnumber"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edit_textview_box"
+        android:hint="Contact number"
+        android:inputType="phone"
+        android:maxLength="12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/signUpBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/edit_round"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
