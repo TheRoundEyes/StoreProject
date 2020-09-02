@@ -11,18 +11,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
 import com.example.projectstore.R;
+import com.example.projectstore.obj.Security;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    public EditText emailId, passwordId;
+    public EditText username, password;
     public Button signInButton;
-    public TextView registerHere, forgotPassword;
-
+    public TextView registerHere, forgotPassword, alertText;
     FirebaseAuth mFirebaseAuth;
 
     @Override
@@ -30,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailId = (EditText)findViewById(R.id.email);
-        passwordId = (EditText)findViewById(R.id.password);
+        username = (EditText)findViewById(R.id.email);
+        password = (EditText)findViewById(R.id.password);
         signInButton = (Button)findViewById(R.id.signInBtn);
         registerHere = (TextView)findViewById(R.id.registerHere);
         forgotPassword = (TextView)findViewById(R.id.forgotPassword);
+        alertText = (TextView)findViewById(R.id.alertText);
 
         forgotPasswordClickMethod();
         registerHereClickMethod();
@@ -43,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void forgotPasswordClickMethod() {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class));
-           }
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class));
+            }
         });
     }
 
@@ -54,9 +62,7 @@ public class MainActivity extends AppCompatActivity {
         registerHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, SelectUserTypeActivity.class);
-                System.out.println("Marvin");
-                startActivity(i);
+                startActivity(new Intent(MainActivity.this, SelectUserTypeActivity.class));
             }
         });
     }
@@ -64,53 +70,65 @@ public class MainActivity extends AppCompatActivity {
     private void signInButtonClickMethod() {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                final String email = emailId.getText().toString();
-                final String password = passwordId.getText().toString();
-                if(email.isEmpty()) {
-                    emailId.setError("Email cannot be empty");
-                } else if(password.isEmpty()) {
-                    passwordId.setError("Password cannot be empty");
-                } else if(email.isEmpty() && password.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Fields Cannot be empty", Toast.LENGTH_SHORT).show();
-                } else if(!(email.isEmpty() && password.isEmpty())) {
-                    mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+            public void onClick(View v) {
+                final String un = username.getText().toString();
+                final String pw = password.getText().toString();
+                if(!un.matches("[a-zA-Z0-9]+") || un.length() < 4) {
+                    username.setError("Enter a valid Username.");
+                }
+                else if(pw.length() < 8) {
+                    password.setError("Enter a valid Password.");
+                }
+                else {
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                    Query checkUser = reference.orderByChild("username").equalTo(un);
+                    checkUser.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (!(task.isSuccessful())) {
-                                Toast.makeText(MainActivity.this, "Error Login", Toast.LENGTH_SHORT).show();
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()) {
+                                String pw_ = snapshot.child(un).child("password").getValue().toString();
+                                String decryptedPassword = new Security().decryptData(pw_, un);
+                                if(decryptedPassword.equals(pw)) {
+                                    String email = snapshot.child(un).child("email").getValue().toString();
+                                    mFirebaseAuth.signInWithEmailAndPassword(email, pw_).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if(task.isSuccessful()) {
+                                                startActivity(new Intent(MainActivity.this, HomePageActivity.class));
+                                            }
+                                            else {
+                                                Toast.makeText(MainActivity.this, "Error logging in.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                                else alertText.setText("Incorrect username or password.");
                             }
-                            else {
-                                Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
-//                                Intent i = new Intent(MainActivity.this, HomePageActivity.class);
-                                //                               startActivity(i);
-                            }
+                            else alertText.setText("Incorrect username or password.");
                         }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {}
                     });
-                } else {
-                    Toast.makeText(MainActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public boolean isUserLoggedIn() {
-        boolean bool = false;
+    public void isUserLoggedIn() {
         mFirebaseAuth = FirebaseAuth.getInstance();
-        if (mFirebaseAuth.getCurrentUser() != null) {
-            Toast.makeText(MainActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-            // Intent i = new Intent(MainActivity.this, HomePageActivity.class);
-            // startActivity(i);
-            bool = true;
-        } else {
+
+        if(mFirebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(MainActivity.this, HomePageActivity.class));
+        }
+        else {
             Toast.makeText(MainActivity.this, "You are logged out. Please log in again.", Toast.LENGTH_SHORT).show();
         }
-        return bool;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        isUserLoggedIn();
+//        isUserLoggedIn();
     }
 }

@@ -9,15 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.projectstore.obj.UserClass;
-import com.example.projectstore.obj.Security;
 import com.example.projectstore.R;
+import com.example.projectstore.obj.Security;
+import com.example.projectstore.obj.UserClass;
+import com.google.firebase.database.DataSnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -70,8 +70,11 @@ public class RegisterActivity extends AppCompatActivity {
                     alertTitle.setText("");
                     fullname.setError("Other characters and digits is not allowed.");
                 }
-                else if(!un.matches("[a-zA-Z0-9]")) {
+                else if(!un.matches("[a-zA-Z0-9]+")) {
                     username.setError("Other characters/symbols are not allowed.");
+                }
+                else if(un.length() < 4) {
+                    username.setError("Username should be 4 characters or more.");
                 }
                 else if(loc.length() < 10) {
                     location.setError("Please enter a valid location.");
@@ -125,15 +128,12 @@ public class RegisterActivity extends AppCompatActivity {
                                     if(emailSplit_[i].equals("")) checkIfMultipleDot = true;
                                 }
                                 if(checkIfMultipleDot) email.setError("Please enter a valid email.");
-                                else {
-                                    getData(fn, loc, cn, store, email_, un, pw, status);
-                                }
+                                else getData(fn, loc, cn, store, email_, un, new Security().encryptData(pw, un), status);
                             }
                         }
                         alertTitle.setText("");
                     }
                 }
-                getData(fn, loc, cn, store, email_, un, pw, status);
             }
         });
 
@@ -154,17 +154,24 @@ public class RegisterActivity extends AppCompatActivity {
         reference.child(un).setValue(userClass);
     }
 
-
     public void emailAndPasswordAuth(final String fn, final String loc, final String cn, final String store,
-                                     final String email, final String un, final String pw, final String userType) {
-        mAuth.createUserWithEmailAndPassword(email, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                     final String e, final String un, final String pw, final String userType) {
+        mAuth.createUserWithEmailAndPassword(e, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    insertData(fn, loc, cn, store, email, un, new Security().encryptData(pw, un), userType);
+                    insertData(fn, loc, cn, store, e, un, pw, userType);
+                    fullname.setText("");
+                    location.setText("");
+                    contactNumber.setText("");
+                    if(userType.equals("StoreOwner")) storeName.setText("");
+                    email.setText("");
+                    username.setText("");
+                    password.setText("");
+                    rpassword.setText("");
                     startActivity(new Intent(RegisterActivity.this, HomePageActivity.class));
                 }
-                else Toast.makeText(RegisterActivity.this, "Login unsuccessful: ", Toast.LENGTH_SHORT).show();
+                else alertTitle.setText("Email is Existing.");
             }
         });
     }
