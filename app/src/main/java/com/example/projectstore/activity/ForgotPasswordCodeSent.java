@@ -1,7 +1,10 @@
 package com.example.projectstore.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,7 +60,11 @@ public class ForgotPasswordCodeSent extends AppCompatActivity {
         auth.signInWithCredential(cred).addOnCompleteListener(ForgotPasswordCodeSent.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) startActivity(new Intent(ForgotPasswordCodeSent.this, ResetPasswordActivity.class));
+                if(task.isSuccessful()) {
+                    Intent i = new Intent(ForgotPasswordCodeSent.this, ResetPasswordActivity.class);
+                    i.putExtra("Username", getIntent().getStringExtra("username"));
+                    startActivity(i);
+                }
                 else Toast.makeText(ForgotPasswordCodeSent.this, "It is not your number.", Toast.LENGTH_LONG).show();
             }
         });

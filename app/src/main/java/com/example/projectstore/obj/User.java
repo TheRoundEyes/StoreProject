@@ -1,71 +1,46 @@
 package com.example.projectstore.obj;
 
 public class User {
-
-    private String fullname, location, storename, emailaddress, password;
-    private Long contactnumber;
-    private boolean customer = false;
+    String fullName, location, contactNumber, storeName, email, username, password, userType;
 
     public User() {}
 
-    public User(String fullname, String location, String storename, String emailaddress, String password, Long contactnumber) {
-        this.fullname = fullname;
+    public User(String fullName, String location, String contactNumber, String email, String username, String password, String userType) {
+        this.fullName = fullName;
         this.location = location;
-        this.storename = storename;
-        this.emailaddress = emailaddress;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.username = username;
         this.password = password;
-        this.contactnumber = contactnumber;
+        this.userType = userType;
     }
 
-    public String getFullname() {
-        return fullname;
+    public User(String fullName, String location, String contactNumber, String storeName, String email, String username, String password, String userType) {
+        this.fullName = fullName;
+        this.location = location;
+        this.contactNumber = contactNumber;
+        this.storeName = storeName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
     }
 
-    public void setFullname(String f){
-        fullname = f;
-    }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+    public void setLocation(String location) { this.location = location; }
+    public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
+    public void setStoreName(String storeName) { this.storeName = storeName; }
+    public void setEmail(String email) { this.email = email; }
+    public void setUsername(String username) { this.username = username; }
+    public void setPassword(String password) { this.password = password; }
+    public void setUserType(String userType) { this.userType = userType; }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String l){
-        location = l;
-    }
-
-    public String getStorename() {
-        return storename;
-    }
-
-    public void setStorename(String s){
-        storename = s;
-    }
-
-    public String getEmailaddress() {
-        return emailaddress;
-    }
-
-    public void setEmailaddress(String e){
-        emailaddress = e;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String p){
-        password = p;
-    }
-
-    public Long getContactnumber(){
-        return contactnumber;
-    }
-
-    public void setContactnumber(Long contactnumber) {
-        this.contactnumber = contactnumber;
-    }
-
-    public boolean isCustomer(){ return this.customer; }
-
-    public void setCustomer(boolean customer) { this.customer = customer; }
+    public String getFullName() { return fullName; }
+    public String getLocation() { return location; }
+    public String getContactNumber() { return contactNumber; }
+    public String getStoreName() { return storeName; }
+    public String getEmail() { return email; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public String getUserType() { return userType; }
 }

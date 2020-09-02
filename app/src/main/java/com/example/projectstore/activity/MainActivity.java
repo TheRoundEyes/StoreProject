@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public Button signInButton;
     public TextView registerHere, forgotPassword, alertText;
     FirebaseAuth mFirebaseAuth;
+    int pressCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,5 +131,17 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 //        isUserLoggedIn();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(pressCount >= 1) {
+            finish();
+            super.onBackPressed();
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Press again to exit.", Toast.LENGTH_SHORT).show();
+            pressCount++;
+        }
     }
 }

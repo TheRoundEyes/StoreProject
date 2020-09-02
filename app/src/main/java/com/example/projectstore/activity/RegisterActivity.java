@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectstore.R;
 import com.example.projectstore.obj.Security;
-import com.example.projectstore.obj.UserClass;
+import com.example.projectstore.obj.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,8 +27,9 @@ public class RegisterActivity extends AppCompatActivity {
     public EditText fullname, location, contactNumber, storeName, email, username, password, rpassword;
     public Button signUp;
     public TextView loginHere, alertTitle;
-    private String status = "";
+    private String userType = "";
     FirebaseAuth mAuth;
+    boolean isUsernameExisting = false, isContactExisting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         loginHere = (TextView)findViewById(R.id.loginHere);
         alertTitle = (TextView)findViewById(R.id.alertTitle);
         signUp = (Button)findViewById(R.id.signUpBtn);
-        status = getIntent().getStringExtra("UserType");
-        storeName.setVisibility(status.equals("Customer") ? View.GONE : View.VISIBLE);
+        userType = getIntent().getStringExtra("UserType");
+        storeName.setVisibility(userType.equals("Customer") ? View.GONE : View.VISIBLE);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String rpw = rpassword.getText().toString();
 
                 if(fn.equals("") || loc.equals("") || cn.equals("") ||
-                        email.equals("") || pw.equals("") || rpw.equals("") || (status.equals("StoreOwner") && store.equals(""))) {
+                        email.equals("") || pw.equals("") || rpw.equals("") || (userType.equals("StoreOwner") && store.equals(""))) {
                     alertTitle.setText("All fields are required.");
                 }
                 else if(!fn.matches("[a-zA-Z\\.\\s]+")) {
@@ -128,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if(emailSplit_[i].equals("")) checkIfMultipleDot = true;
                                 }
                                 if(checkIfMultipleDot) email.setError("Please enter a valid email.");
-                                else getData(fn, loc, cn, store, email_, un, new Security().encryptData(pw, un), status);
+                                else getData(fn, loc, cn, store, email_, un, new Security().encryptData(pw, un), userType);
                             }
                         }
                         alertTitle.setText("");
@@ -148,10 +149,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void insertData(String fn, String loc, String cn, String store, String email, String un, String pw, String userType) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        UserClass userClass = null;
-        if(userType.equals("Customer")) userClass = new UserClass(fn, loc, cn, email, un, pw, userType);
-        else userClass = new UserClass(fn, loc, cn, store, email, un, pw, userType);
-        reference.child(un).setValue(userClass);
+        User user = null;
+        if(userType.equals("Customer")) user = new User(fn, loc, cn, email, un, pw, userType);
+        else user = new User(fn, loc, cn, store, email, un, pw, userType);
+        reference.child(un).setValue(user);
     }
 
     public void emailAndPasswordAuth(final String fn, final String loc, final String cn, final String store,
@@ -179,13 +180,41 @@ public class RegisterActivity extends AppCompatActivity {
     public void getData(final String fn, final String loc, final String cn, final String store,
                         final String email_, final String un, final String pw, final String userType) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        Query checkUser = reference.orderByChild("username").equalTo(un);
 
-        checkUser.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) alertTitle.setText("Username is already existing.");
-                else emailAndPasswordAuth(fn, loc, cn, store, email_, un, pw, userType);
+                for(DataSnapshot data : snapshot.getChildren()) {
+                    String cn_ = data.child("contactNumber").getValue().toString();
+                    String un_ = data.child("username").getValue().toString();
+                    if(cn_.equals(cn) && un_.equals(un)) {
+                        isUsernameExisting = true;
+                        isContactExisting = true;
+                        break;
+                    }
+                    else if(cn_.equals(cn)) {
+                        isUsernameExisting = false;
+                        isContactExisting = true;
+                        break;
+                    }
+                    else if(un_.equals(un)) {
+                        isUsernameExisting = true;
+                        isContactExisting = false;
+                        break;
+                    }
+                    else {
+                        isUsernameExisting = false;
+                        isContactExisting = false;
+                    }
+                }
+                if(isUsernameExisting && isContactExisting) {
+                    alertTitle.setText("Username and Contact Number is existing.");
+                }
+                else if(isUsernameExisting) alertTitle.setText("Username is existing.");
+                else if(isContactExisting) alertTitle.setText("Contact Number is existing.");
+                else {
+                    emailAndPasswordAuth(fn, loc, cn, store, email_, un, pw, userType);
+                }
             }
 
             @Override
