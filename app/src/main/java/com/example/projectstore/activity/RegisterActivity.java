@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectstore.R;
+import com.example.projectstore.db.DatabaseManager;
 import com.example.projectstore.obj.Security;
 import com.example.projectstore.obj.User;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     public TextView loginHere, alertTitle;
     private String userType = "";
     FirebaseAuth mAuth;
+    DatabaseManager dbm;
     boolean isUsernameExisting = false, isContactExisting = false;
 
     @Override
@@ -36,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+        dbm = new DatabaseManager(this);
 
         fullname = (EditText)findViewById(R.id.fullname);
         location = (EditText)findViewById(R.id.location);
@@ -129,12 +132,12 @@ public class RegisterActivity extends AppCompatActivity {
                                     if(emailSplit_[i].equals("")) checkIfMultipleDot = true;
                                 }
                                 if(checkIfMultipleDot) email.setError("Please enter a valid email.");
-                                else getData(fn, loc, cn, store, email_, un, new Security().encryptData(pw, un), userType);
+                                else dbm.getData(fn, loc, cn, store, email_, un, new Security().encryptData(pw, un), userType, RegisterActivity.this,alertTitle);
                             }
                         }
                         alertTitle.setText("");
                     }
-                }
+            }
             }
         });
 
@@ -144,81 +147,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(i);
             }
-        });
-    }
-
-    public void insertData(String fn, String loc, String cn, String store, String email, String un, String pw, String userType) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        User user = null;
-        if(userType.equals("Customer")) user = new User(fn, loc, cn, email, un, pw, userType);
-        else user = new User(fn, loc, cn, store, email, un, pw, userType);
-        reference.child(un).setValue(user);
-    }
-
-    public void emailAndPasswordAuth(final String fn, final String loc, final String cn, final String store,
-                                     final String e, final String un, final String pw, final String userType) {
-        mAuth.createUserWithEmailAndPassword(e, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    insertData(fn, loc, cn, store, e, un, pw, userType);
-                    fullname.setText("");
-                    location.setText("");
-                    contactNumber.setText("");
-                    if(userType.equals("StoreOwner")) storeName.setText("");
-                    email.setText("");
-                    username.setText("");
-                    password.setText("");
-                    rpassword.setText("");
-                    startActivity(new Intent(RegisterActivity.this, HomePageActivity.class));
-                }
-                else alertTitle.setText("Email is Existing.");
-            }
-        });
-    }
-
-    public void getData(final String fn, final String loc, final String cn, final String store,
-                        final String email_, final String un, final String pw, final String userType) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot data : snapshot.getChildren()) {
-                    String cn_ = data.child("contactNumber").getValue().toString();
-                    String un_ = data.child("username").getValue().toString();
-                    if(cn_.equals(cn) && un_.equals(un)) {
-                        isUsernameExisting = true;
-                        isContactExisting = true;
-                        break;
-                    }
-                    else if(cn_.equals(cn)) {
-                        isUsernameExisting = false;
-                        isContactExisting = true;
-                        break;
-                    }
-                    else if(un_.equals(un)) {
-                        isUsernameExisting = true;
-                        isContactExisting = false;
-                        break;
-                    }
-                    else {
-                        isUsernameExisting = false;
-                        isContactExisting = false;
-                    }
-                }
-                if(isUsernameExisting && isContactExisting) {
-                    alertTitle.setText("Username and Contact Number is existing.");
-                }
-                else if(isUsernameExisting) alertTitle.setText("Username is existing.");
-                else if(isContactExisting) alertTitle.setText("Contact Number is existing.");
-                else {
-                    emailAndPasswordAuth(fn, loc, cn, store, email_, un, pw, userType);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 }
